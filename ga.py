@@ -166,13 +166,13 @@ class GA(object):
                         self.loss_history[i].append([sample[i], loss])
 
 
-    def Big_Funct(self, num_generations=20, show_stats=False):
+    def Big_Funct(self, num_generations=20, mode = 'non-deterministic', show_stats=False):
         best_outputs = []
         self.loss_history = []
         for generation in range(num_generations):
             # if show_stats:
                 # self.plotPopulation()
-            best_loss, best_gene = self.get_next_gen(generation)
+            best_loss, best_gene = self.get_next_gen(generation,mode)
             best_gene_params = []
             for i in range(len(best_gene)):
                 self.params[i].setValueFromSample(best_gene[i])
@@ -216,15 +216,16 @@ class GA(object):
             #     for j in range(len(xbins)-1):
                     # ax.text(xbins[j]+0.04, ybins[k]+1, hist.T[k,j], 
                             # color="w", ha="center", va="center", fontweight="bold")
+            plt.figure(i*len(a)+1)
             ax.set_xlabel('Parameter Value')
             ax.set_ylabel('Loss')
-            plt.show()
 
+            plt.figure(i*len(a)+2)
             plt.scatter(a[i,:,0], a[i,:,1])
             plt.xlabel('Parameter Value')
             plt.ylabel('Loss')
 
-            plt.show()
+        plt.show()
 
     def plotPopulation(self):
         if len(self.pop_hist) == 0:
